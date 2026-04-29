@@ -25,41 +25,63 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Check local session
     const session = localStorage.getItem('session_v6');
+
+    // Timeout de secours : si Firebase ne répond pas en 8s, on débloque quand même l'interface
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 8000);
     
     // Subscribe to users collection (Real-time updates)
-    const unsubscribeUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
-      const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      
-      // Setup initial Univers user if database is completely empty
-      if (usersData.length === 0) {
-        const initialUser = { name: 'Univers', discordId: '0001', role: ROLES.UNIVERS, password: 'root' };
-        setDoc(doc(db, 'users', 'univers_root'), initialUser);
-        usersData.push({ id: 'univers_root', ...initialUser });
-      }
-      
-      setUsers(usersData);
-      
-      // Auto re-login if session exists
-      if (session) {
-        const user = usersData.find(u => u.id === session);
-        if (user) {
-          setCurrentUser(user);
-        } else {
-          localStorage.removeItem('session_v6');
-          setCurrentUser(null);
+    const unsubscribeUsers = onSnapshot(
+      collection(db, 'users'),
+      (snapshot) => {
+        clearTimeout(timeout);
+        const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        // Setup initial Univers user if database is completely empty
+        if (usersData.length === 0) {
+          const initialUser = { name: 'Univers', discordId: '0001', role: ROLES.UNIVERS, password: 'root' };
+          setDoc(doc(db, 'users', 'univers_root'), initialUser);
+          usersData.push({ id: 'univers_root', ...initialUser });
         }
+        
+        setUsers(usersData);
+        
+        // Auto re-login if session exists
+        if (session) {
+          const user = usersData.find(u => u.id === session);
+          if (user) {
+            setCurrentUser(user);
+          } else {
+            localStorage.removeItem('session_v6');
+            setCurrentUser(null);
+          }
+        }
+        
+        setLoading(false);
+      },
+      (error) => {
+        // En cas d'erreur Firebase (réseau, règles, etc.), on débloque quand même
+        console.error('Firebase users error:', error);
+        clearTimeout(timeout);
+        setLoading(false);
       }
-      
-      setLoading(false);
-    });
+    );
 
     // Subscribe to pending requests (Real-time updates)
-    const unsubscribeRequests = onSnapshot(collection(db, 'requests'), (snapshot) => {
-      const reqData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setPendingRequests(reqData);
-    });
+    const unsubscribeRequests = onSnapshot(
+      collection(db, 'requests'),
+      (snapshot) => {
+        const reqData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setPendingRequests(reqData);
+      },
+      (error) => {
+        console.error('Firebase requests error:', error);
+      }
+    );
 
     return () => {
+      clearTimeout(timeout);
       unsubscribeUsers();
       unsubscribeRequests();
     };
