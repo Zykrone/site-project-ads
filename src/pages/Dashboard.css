@@ -82,3 +82,16 @@
   background: #fff;
   color: #000;
 }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 3rem;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .cyber-card {
+    padding: 30px;
+  }
+}

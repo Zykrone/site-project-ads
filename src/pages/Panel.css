@@ -233,3 +233,55 @@
 
 .card-tech h3 { font-size: 1.6rem; margin-bottom: 15px; }
 .card-tech p { color: var(--text-soft); line-height: 1.8; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .tech-header {
+    height: auto;
+    padding: 15px;
+  }
+  .header-inner {
+    flex-direction: column;
+    height: auto;
+    padding: 15px;
+    gap: 15px;
+    border-radius: var(--radius-md);
+  }
+  .header-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .profile-pill {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .panel-body {
+    padding: 20px 10px;
+  }
+  .secondary-nav {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  .secondary-link {
+    text-align: center;
+    padding: 12px 20px;
+  }
+  .admin-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .dict-grid {
+    grid-template-columns: 1fr;
+  }
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+  .card-tech {
+    padding: 25px;
+  }
+  .card-tech h3 {
+    font-size: 1.3rem;
+  }
+}
