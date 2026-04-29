@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { db } from '../firebase';
+import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, setDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -18,41 +20,50 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [pendingRequests, setPendingRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUsers = localStorage.getItem('users_v6');
-    const savedRequests = localStorage.getItem('pendingRequests_v6');
+    // Check local session
+    const session = localStorage.getItem('session_v6');
     
-    if (savedUsers) {
-      const parsedUsers = JSON.parse(savedUsers);
-      setUsers(parsedUsers);
+    // Subscribe to users collection (Real-time updates)
+    const unsubscribeUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
+      const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       
-      const session = localStorage.getItem('session_v6');
-      if (session) {
-        const user = parsedUsers.find(u => u.id === session);
-        if (user) setCurrentUser(user);
+      // Setup initial Univers user if database is completely empty
+      if (usersData.length === 0) {
+        const initialUser = { name: 'Univers', discordId: '0001', role: ROLES.UNIVERS, password: 'root' };
+        setDoc(doc(db, 'users', 'univers_root'), initialUser);
+        usersData.push({ id: 'univers_root', ...initialUser });
       }
-    } else {
-      // Initial Setup
-      const initialUsers = [
-        { id: '1', name: 'Univers', discordId: '0001', role: ROLES.UNIVERS, password: 'root' }
-      ];
-      setUsers(initialUsers);
-      localStorage.setItem('users_v6', JSON.stringify(initialUsers));
-    }
+      
+      setUsers(usersData);
+      
+      // Auto re-login if session exists
+      if (session) {
+        const user = usersData.find(u => u.id === session);
+        if (user) {
+          setCurrentUser(user);
+        } else {
+          localStorage.removeItem('session_v6');
+          setCurrentUser(null);
+        }
+      }
+      
+      setLoading(false);
+    });
 
-    if (savedRequests) {
-      setPendingRequests(JSON.parse(savedRequests));
-    }
+    // Subscribe to pending requests (Real-time updates)
+    const unsubscribeRequests = onSnapshot(collection(db, 'requests'), (snapshot) => {
+      const reqData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setPendingRequests(reqData);
+    });
+
+    return () => {
+      unsubscribeUsers();
+      unsubscribeRequests();
+    };
   }, []);
-
-  useEffect(() => {
-    if (users.length > 0) localStorage.setItem('users_v6', JSON.stringify(users));
-  }, [users]);
-
-  useEffect(() => {
-    localStorage.setItem('pendingRequests_v6', JSON.stringify(pendingRequests));
-  }, [pendingRequests]);
 
   const login = (name, password) => {
     const user = users.find(u => (u.name === name || u.discordId === name) && u.password === password);
@@ -64,16 +75,16 @@ export const AuthProvider = ({ children }) => {
     return false;
   };
 
-  const changePassword = (newPassword) => {
+  const changePassword = async (newPassword) => {
     if (!currentUser) return false;
-    setUsers(prev => prev.map(u => u.id === currentUser.id ? { ...u, password: newPassword } : u));
+    await updateDoc(doc(db, 'users', currentUser.id), { password: newPassword });
     setCurrentUser(prev => ({ ...prev, password: newPassword }));
     return true;
   };
 
-  const registerRequest = (discordId, password, pseudo, type) => {
-    const newRequest = { id: Date.now().toString(), discordId, password, pseudo, type, status: 'pending' };
-    setPendingRequests(prev => [...prev || [] , newRequest]);
+  const registerRequest = async (discordId, password, pseudo, type) => {
+    const newRequest = { discordId, password, pseudo, type, status: 'pending', createdAt: Date.now() };
+    await addDoc(collection(db, 'requests'), newRequest);
   };
 
   const logout = () => {
@@ -81,48 +92,50 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('session_v6');
   };
 
-  const acceptRequest = (requestId, role) => {
+  const acceptRequest = async (requestId, role) => {
     const req = pendingRequests.find(r => r.id === requestId);
     if (!req) return;
 
     const newUser = {
-      id: req.id,
       name: req.pseudo || `Agent_${req.discordId.slice(-4)}`,
       discordId: req.discordId,
       role: role,
-      password: req.password // Use the password they registered with
+      password: req.password
     };
 
-    setUsers(prev => [...prev, newUser]);
-    setPendingRequests(prev => prev.filter(r => r.id !== requestId));
+    // Add to real users DB
+    await addDoc(collection(db, 'users'), newUser);
+    // Delete from pending requests DB
+    await deleteDoc(doc(db, 'requests', requestId));
   };
 
-  const rejectRequest = (requestId) => {
-    setPendingRequests(prev => prev.filter(r => r.id !== requestId));
+  const rejectRequest = async (requestId) => {
+    await deleteDoc(doc(db, 'requests', requestId));
   };
 
-  const changeUserRole = (userId, newRole) => {
-    setUsers(prev => prev.map(u => u.id === userId ? { ...u, role: newRole } : u));
+  const changeUserRole = async (userId, newRole) => {
+    await updateDoc(doc(db, 'users', userId), { role: newRole });
     if (currentUser && currentUser.id === userId) {
       setCurrentUser(prev => ({ ...prev, role: newRole }));
     }
   };
 
-  const kickUser = (userId) => {
-    setUsers(prev => prev.filter(u => u.id !== userId));
+  const kickUser = async (userId) => {
+    await deleteDoc(doc(db, 'users', userId));
     if (currentUser && currentUser.id === userId) {
       logout();
     }
   };
 
-  const resetUserPassword = (userId) => {
+  const resetUserPassword = async (userId) => {
     const newPassword = Math.random().toString(36).slice(-8).toUpperCase();
-    setUsers(prev => prev.map(u => u.id === userId ? { ...u, password: newPassword } : u));
+    await updateDoc(doc(db, 'users', userId), { password: newPassword });
     return newPassword;
   };
 
-  const setMyRole = (role) => {
+  const setMyRole = async (role) => {
     if (currentUser?.name === 'Univers') {
+      await updateDoc(doc(db, 'users', currentUser.id), { role });
       setCurrentUser(prev => ({ ...prev, role }));
     }
   };
@@ -147,9 +160,21 @@ export const AuthProvider = ({ children }) => {
     const myBranch = getBranch(currentUser?.role);
     const targetBranch = getBranch(targetRole);
     
-    // Un gérant/chef ne peut assigner que des rôles de SA propre branche (ou inférieur)
+    // Un gérant/chef ne peut assigner que des rôles de SA propre branche
     return myBranch === targetBranch;
   };
+
+  if (loading) {
+    return (
+      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#0a0a0a', color: '#00f0ff', fontFamily: 'monospace', fontSize: '1.2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+          <div style={{ width: '50px', height: '50px', border: '3px solid rgba(0, 240, 255, 0.1)', borderTopColor: '#00f0ff', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+          <span>CONNEXION AU RÉSEAU SÉCURISÉ...</span>
+        </div>
+        <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider value={{ 
