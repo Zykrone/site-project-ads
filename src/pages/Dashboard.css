@@ -1,0 +1,84 @@
+/* ══════════════════════════════════════════
+   DASHBOARD — ELITE NOIR
+══════════════════════════════════════════ */
+
+.dashboard-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.dashboard-header h1 {
+  font-size: 5rem;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 30px;
+}
+
+.cyber-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-card:hover {
+  transform: translateY(-15px);
+  border-color: var(--accent-neon);
+  box-shadow: 0 40px 80px rgba(0, 255, 163, 0.1);
+}
+
+.card-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-neon);
+  margin-bottom: 30px;
+}
+
+.cyber-card h3 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.cyber-card p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.btn-cyan {
+  padding: 12px 28px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-default);
+  color: #fff;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.8rem;
+  width: fit-content;
+  margin-top: auto;
+}
+
+.btn-cyan:hover {
+  background: #fff;
+  color: #000;
+}

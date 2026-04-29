@@ -1,0 +1,164 @@
+.troll-body {
+  background: #ff00ff url('https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif') repeat;
+  font-family: "Comic Sans MS", "Chalkboard SE", "Papyrus", sans-serif;
+  color: #00ff00;
+  overflow-x: hidden;
+  min-height: 100vh;
+  padding: 20px;
+  cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym46.cur'), auto;
+}
+
+.troll-title {
+  font-size: 6vw;
+  color: #ffff00;
+  text-shadow: 10px 10px 0px #ff0000, -10px -10px 0px #0000ff;
+  animation: spinTroll 2s infinite linear, blinkTroll 0.2s infinite;
+  text-align: center;
+  margin-top: 50px;
+  text-transform: uppercase;
+}
+
+@keyframes spinTroll {
+  0% { transform: rotate(0deg) scale(1) skew(0deg); }
+  25% { transform: rotate(90deg) scale(1.5) skew(20deg); }
+  50% { transform: rotate(180deg) scale(0.5) skew(-20deg); }
+  75% { transform: rotate(270deg) scale(2) skew(10deg); }
+  100% { transform: rotate(360deg) scale(1) skew(0deg); }
+}
+
+@keyframes blinkTroll {
+  0% { opacity: 1; color: #ffff00; }
+  50% { opacity: 0; color: #ff00ff; }
+  100% { opacity: 1; color: #00ffff; }
+}
+
+.troll-marquee {
+  background: #0000ff;
+  color: #ffff00;
+  font-size: 3rem;
+  padding: 15px;
+  width: 100%;
+  white-space: nowrap;
+  animation: slideTroll 2s linear infinite;
+  border: 5px dotted #ff0000;
+  font-weight: bold;
+}
+
+@keyframes slideTroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.buggy-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 150px;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.troll-btn {
+  background: #ff00ff;
+  color: #00ff00;
+  font-size: 4rem;
+  font-family: "Comic Sans MS";
+  font-weight: 900;
+  border: 15px ridge #00ffff;
+  border-radius: 20%;
+  padding: 30px 50px;
+  cursor: help;
+  position: relative;
+  z-index: 9999;
+  box-shadow: 20px 20px 50px #000;
+}
+
+.btn-runaway:hover {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(720deg) scale(0.2);
+  background: black;
+  color: red;
+  transition: all 0.1s cubic-bezier(0.1, -0.6, 0.2, 0);
+}
+
+.btn-reseau {
+  background: #ffff00;
+  color: #ff0000;
+  border-radius: 0;
+  border: 20px inset #ff00ff;
+  animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(2px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(0px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(2px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(2px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.glitch-box {
+  width: 300px;
+  height: 300px;
+  background: orange;
+  animation: glitchMove 0.1s infinite;
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  mix-blend-mode: difference;
+}
+
+@keyframes glitchMove {
+  0% { top: 5%; left: 10%; }
+  25% { top: 55%; left: 85%; }
+  50% { top: 80%; left: 15%; }
+  75% { top: 20%; left: 70%; }
+  100% { top: 5%; left: 10%; }
+}
+
+.fake-error {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ece9d8;
+  border: 2px solid #0054e3;
+  padding: 0;
+  width: 400px;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+  font-family: 'Tahoma', sans-serif;
+  color: black;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+}
+
+.fake-error-header {
+  background: linear-gradient(to right, #0058e6, #3a93ff);
+  color: white;
+  padding: 5px 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fake-error-body {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.fake-error-btn {
+  margin: 10px auto 20px;
+  padding: 5px 20px;
+  background: #ece9d8;
+  border: 1px solid #000;
+}
