@@ -155,14 +155,14 @@ export default function Panel() {
 
           <div className="view-content">
             <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
+              <Routes key={location.pathname}>
                 <Route path="/" element={
                   branch === 'GRAB' ? <Navigate to="/panel/grab" /> :
                   <ProtectedRoute allowedBranch="RESEAU"><PageTransition><GestionADS /></PageTransition></ProtectedRoute>
                 } />
-                <Route path="/grab" element={<ProtectedRoute allowedBranch="GRAB"><PageTransition><GestionGRAB /></PageTransition></ProtectedRoute>} />
-                <Route path="/formation" element={<PageTransition><Formation /></PageTransition>} />
-                <Route path="/recrutement" element={
+                <Route path="grab" element={<ProtectedRoute allowedBranch="GRAB"><PageTransition><GestionGRAB /></PageTransition></ProtectedRoute>} />
+                <Route path="formation" element={<PageTransition><Formation /></PageTransition>} />
+                <Route path="recrutement" element={
                   <ProtectedRoute allowedRoles={[
                     ROLES.UNIVERS, 
                     ROLES.GERANT_RESEAU, ROLES.GERANT_GRAB, 
@@ -172,8 +172,8 @@ export default function Panel() {
                     <PageTransition><Recrutement /></PageTransition>
                   </ProtectedRoute>
                 } />
-                <Route path="/membres" element={<ProtectedRoute allowedRoles={[ROLES.UNIVERS, ROLES.GERANT_RESEAU, ROLES.GERANT_GRAB, ROLES.CHEF_RESEAU, ROLES.CHEF_GRAB]}><PageTransition><Membres /></PageTransition></ProtectedRoute>} />
-                <Route path="/securite" element={<PageTransition><Security /></PageTransition>} />
+                <Route path="membres" element={<ProtectedRoute allowedRoles={[ROLES.UNIVERS, ROLES.GERANT_RESEAU, ROLES.GERANT_GRAB, ROLES.CHEF_RESEAU, ROLES.CHEF_GRAB]}><PageTransition><Membres /></PageTransition></ProtectedRoute>} />
+                <Route path="securite" element={<PageTransition><Security /></PageTransition>} />
               </Routes>
             </AnimatePresence>
           </div>
