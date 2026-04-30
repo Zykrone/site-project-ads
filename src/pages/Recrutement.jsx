@@ -46,24 +46,32 @@ const CopyBlock = ({ title, icon, objective, text, accent = 'cyan' }) => {
 const StepCard = ({ step, icon, title, color = 'var(--tech-cyan)', children }) => (
   <motion.div
     className="card-tech mb-6"
-    initial={{ opacity: 0, x: -20 }}
-    animate={{ opacity: 1, x: 0 }}
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
     style={{ borderLeft: `4px solid ${color}`, position: 'relative', overflow: 'visible' }}
   >
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.2rem' }}>
       <div style={{
-        width: '42px', height: '42px', borderRadius: '50%',
+        width: '38px', height: '38px', borderRadius: '50%',
         background: `${color}22`, border: `2px solid ${color}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color, fontWeight: 900, fontSize: '1.1rem', flexShrink: 0
+        color, fontWeight: 950, fontSize: '1rem', flexShrink: 0
       }}>
         {step}
       </div>
-      <h3 style={{ color, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem' }}>
+      <h3 style={{ color, display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '1rem', margin: 0, lineHeight: 1.2 }}>
         {icon} {title}
       </h3>
     </div>
-    <div style={{ paddingLeft: '3.5rem' }}>{children}</div>
+    <div className="step-content">
+      {children}
+    </div>
+    <style>{`
+      .step-content { padding-left: 3.2rem; }
+      @media (max-width: 768px) {
+        .step-content { padding-left: 0; margin-top: 1rem; }
+      }
+    `}</style>
   </motion.div>
 );
 

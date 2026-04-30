@@ -238,50 +238,85 @@
 @media (max-width: 768px) {
   .tech-header {
     height: auto;
-    padding: 15px;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    background: var(--bg-vault);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
+  
   .header-inner {
-    flex-direction: column;
-    height: auto;
-    padding: 15px;
-    gap: 15px;
-    border-radius: var(--radius-md);
-  }
-  .header-nav {
+    flex-direction: row; /* Keep logo and profile side by side if possible, or stack cleanly */
     flex-wrap: wrap;
-    justify-content: center;
-  }
-  .profile-pill {
-    width: 100%;
+    height: auto;
+    padding: 10px 15px;
+    gap: 10px;
+    border-radius: var(--radius-md);
     justify-content: space-between;
   }
+
+  .tech-logo {
+    gap: 8px;
+  }
+  
+  .logo-icon { width: 30px; height: 30px; }
+  .logo-text { font-size: 1.1rem; }
+
+  .header-nav {
+    width: 100%;
+    order: 3;
+    justify-content: center;
+    padding: 5px 0;
+    border-top: 1px solid var(--glass-border);
+    gap: 5px;
+  }
+
+  .tech-nav-link {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+
+  .profile-pill {
+    padding: 4px 4px 4px 10px;
+    gap: 8px;
+  }
+  
+  .profile-name { font-size: 0.75rem; }
+  .profile-role { font-size: 0.6rem; }
+
   .panel-body {
-    padding: 20px 10px;
+    padding: 20px 15px;
   }
+
   .secondary-nav {
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 30px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 25px;
   }
+
   .secondary-link {
+    flex: 1;
+    min-width: 120px;
     text-align: center;
-    padding: 12px 20px;
+    padding: 10px 15px;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
   }
+
   .admin-table {
     display: block;
     overflow-x: auto;
-    white-space: nowrap;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
   }
-  .dict-grid {
-    grid-template-columns: 1fr;
+
+  .admin-table td, .admin-table th {
+    padding: 15px;
+    font-size: 0.85rem;
   }
-  .tech-grid {
-    grid-template-columns: 1fr;
-  }
+
   .card-tech {
-    padding: 25px;
-  }
-  .card-tech h3 {
-    font-size: 1.3rem;
+    padding: 20px;
   }
 }
