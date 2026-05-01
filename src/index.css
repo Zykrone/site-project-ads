@@ -254,33 +254,75 @@ button {
 .text-center { text-align: center; }
 .mx-auto { margin-left: auto; margin-right: auto; }
 
-/* ─── ZYKRONE SIGNATURE ─── */
+/* ─── ZYKRONE SIGNATURE (PREMIUM GLITCH) ─── */
 .zykrone-signature {
   position: fixed;
   bottom: 15px;
   right: 20px;
   font-family: var(--font-main);
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.55rem;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.15);
   text-transform: uppercase;
   z-index: 9999;
-  transition: all 0.4s ease;
-  cursor: default;
+  cursor: crosshair;
+  transition: color 0.3s ease;
+}
+
+.zykrone-signature::before,
+.zykrone-signature::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .zykrone-signature:hover {
-  color: var(--tech-cyan);
-  text-shadow: 0 0 15px var(--tech-glow);
-  transform: translateY(-2px);
-  letter-spacing: 0.25em;
+  color: var(--text-pure);
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.zykrone-signature:hover::before {
+  opacity: 1;
+  color: #00ffff;
+  z-index: -1;
+  animation: glitch-anim-1 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.zykrone-signature:hover::after {
+  opacity: 1;
+  color: #ff00ff;
+  z-index: -2;
+  animation: glitch-anim-2 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+  20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+  40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+  60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+  80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
+  100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
+  20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 2px); }
+  40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, -2px); }
+  60% { clip-path: inset(20% 0 50% 0); transform: translate(-1px, 1px); }
+  80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, -1px); }
+  100% { clip-path: inset(5% 0 80% 0); transform: translate(-2px, 1px); }
 }
 
 @media (max-width: 768px) {
   .zykrone-signature {
     bottom: 10px;
     right: 15px;
-    font-size: 0.5rem;
+    font-size: 0.45rem;
   }
 }

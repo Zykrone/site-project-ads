@@ -13,8 +13,8 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/panel/*" element={<Panel />} />
         </Routes>
-        <div className="zykrone-signature">
-          CODE BY ZYKRONE
+        <div className="zykrone-signature" data-text="Fait par Zykrøne">
+          Fait par Zykrøne
         </div>
       </Router>
     </AuthProvider>
