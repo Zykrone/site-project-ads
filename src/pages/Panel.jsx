@@ -80,7 +80,7 @@ export default function Panel() {
     if (!currentUser) navigate('/');
   }, [currentUser, navigate]);
 
-  if (!currentUser) return <div className="main-panel" style={{ background: '#000' }}></div>;
+  if (!currentUser) return <div className="main-panel" style={{ background: 'var(--bg-vault)', height: '100vh', width: '100vw' }}></div>;
 
   const handleLogout = () => { logout(); navigate('/'); };
   const role = currentUser.role;
@@ -158,7 +158,18 @@ export default function Panel() {
               <Routes key={location.pathname}>
                 <Route path="/" element={
                   branch === 'GRAB' ? <Navigate to="/panel/grab" /> :
-                  <ProtectedRoute allowedBranch="RESEAU"><PageTransition><GestionADS /></PageTransition></ProtectedRoute>
+                  branch === 'RESEAU' ? (
+                    <ProtectedRoute allowedBranch="RESEAU"><PageTransition><GestionADS /></PageTransition></ProtectedRoute>
+                  ) : (
+                    <PageTransition>
+                      <div className="view-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+                        <div className="card-tech text-center" style={{ maxWidth: '500px' }}>
+                          <h2 style={{ fontSize: '2rem', marginBottom: '15px' }}>BIENVENUE</h2>
+                          <p style={{ color: 'var(--text-soft)' }}>Votre accès est en cours de configuration. Contactez un gérant.</p>
+                        </div>
+                      </div>
+                    </PageTransition>
+                  )
                 } />
                 <Route path="grab" element={<ProtectedRoute allowedBranch="GRAB"><PageTransition><GestionGRAB /></PageTransition></ProtectedRoute>} />
                 <Route path="formation" element={<PageTransition><Formation /></PageTransition>} />

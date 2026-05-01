@@ -26,10 +26,10 @@ export const AuthProvider = ({ children }) => {
     // Check local session
     const session = localStorage.getItem('session_v6');
 
-    // Timeout de secours : si Firebase ne répond pas en 8s, on débloque quand même l'interface
+    // Timeout de secours : si Firebase ne répond pas en 12s, on débloque
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 8000);
+    }, 12000);
     
     // Subscribe to users collection (Real-time updates)
     const unsubscribeUsers = onSnapshot(
@@ -53,8 +53,12 @@ export const AuthProvider = ({ children }) => {
           if (user) {
             setCurrentUser(user);
           } else {
-            localStorage.removeItem('session_v6');
-            setCurrentUser(null);
+            // Session ID not found — might be a timing issue, keep trying
+            // Only clear session if users list is non-empty (DB is loaded)
+            if (usersData.length > 1) {
+              localStorage.removeItem('session_v6');
+              setCurrentUser(null);
+            }
           }
         }
         
