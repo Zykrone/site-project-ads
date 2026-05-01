@@ -55,7 +55,7 @@ export default function Landing() {
         setView('login');
         setLoading(false);
       }, 3000);
-    } catch (_) {
+    } catch {
       setError('ERREUR DE TRANSMISSION');
       setLoading(false);
     }

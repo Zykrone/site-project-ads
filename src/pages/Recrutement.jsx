@@ -121,9 +121,9 @@ const TEMPLATES = {
   reseau: {
     ticket: `👋 Bonjour,
 
-Je t’invite à prendre connaissance des conditions de recrutement disponibles ici : RC ADS📍・conditions-recrutement-reseau….
+Je t’invite à prendre connaissance des conditions de recrutement disponibles ici : <#1482432358295670865>
 
-Une fois celles-ci lues, merci de compléter ta candidature dans le salon suivant : RC ADS📋・exemple-candidature.
+Une fois celles-ci lues, merci de compléter ta candidature dans le salon suivant : <#1440643396049043528>
 
 N’hésite pas à bien remplir toutes les informations demandées afin que ta demande puisse être traitée rapidement.`,
     
@@ -178,14 +178,14 @@ Décision finale : ✅ ADMIS / ❌ REFUSÉ / ⏳ EN ATTENTE`
   },
   
   grab: {
-    ticket: `👋 Salutations,
+    ticket: `👋 Bonjour
 
 Merci de l'intérêt porté à la branche GRAB. Voici la marche à suivre :
 
-1. Prends connaissance du règlement GRAB ici : [LINK].
-2. Remplis le formulaire de candidature disponible dans ce salon.
+1. Prends connaissance des conditions de recrutement grab : <#1471539110303760506>
+2. Remplis le formulaire de candidature disponible dans ce salon : <#1440643396049043528>
 
-Une fois terminé, un responsable examinera ton dossier.`,
+Une fois rempli, nous examinerons ta demande.`,
     
     dispo: `Hello, ton dossier a retenu notre attention. 🎯
 
