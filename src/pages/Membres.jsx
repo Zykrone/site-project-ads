@@ -149,6 +149,7 @@ export default function Membres() {
 
   const [resetResult, setResetResult] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [kickConfirm, setKickConfirm] = useState(null);
 
   if (!canManageRoles || !canManageRoles()) {
     return (
@@ -225,6 +226,66 @@ export default function Membres() {
               </p>
 
               <button className="btn-tech w-full" onClick={() => setResetResult(null)}>COMPRIS</button>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {kickConfirm && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0,0,0,0.85)',
+              backdropFilter: 'blur(15px)',
+              zIndex: 1000000,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '20px'
+            }}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="card-tech"
+              style={{ maxWidth: '500px', width: '100%', textAlign: 'center', border: '1px solid #ff2d55', boxShadow: '0 20px 60px rgba(255,45,85,0.2)' }}
+            >
+              <div className="logo-icon mx-auto mb-6" style={{ background: '#ff2d55', width: '60px', height: '60px' }}>
+                <UserMinus size={30} color="#fff" />
+              </div>
+              <h2 style={{ fontSize: '1.8rem', marginBottom: '10px', color: '#ff2d55' }}>EXPULSION DÉFINITIVE</h2>
+              <p style={{ color: 'var(--text-soft)', marginBottom: '30px', fontSize: '1.1rem' }}>
+                Voulez-vous vraiment bannir <strong>{kickConfirm.name}</strong> des systèmes ?
+              </p>
+              
+              <div style={{ background: 'rgba(255,45,85,0.1)', padding: '15px', borderRadius: '10px', marginBottom: '30px', border: '1px dashed rgba(255,45,85,0.5)' }}>
+                <p style={{ color: '#ff2d55', fontSize: '0.85rem', fontWeight: 700, margin: 0 }}>
+                  ⚠️ ATTENTION : Cette action est irréversible. L'accès sera immédiatement révoqué.
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', gap: '15px' }}>
+                <button 
+                  className="btn-tech" 
+                  style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: '#fff', boxShadow: 'none' }} 
+                  onClick={() => setKickConfirm(null)}
+                >
+                  ANNULER
+                </button>
+                <button 
+                  className="btn-tech" 
+                  style={{ flex: 1, background: 'linear-gradient(135deg, #ff2d55, #cc0033)' }} 
+                  onClick={() => {
+                    kickUser(kickConfirm.id);
+                    setKickConfirm(null);
+                  }}
+                >
+                  CONFIRMER
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}
@@ -385,9 +446,7 @@ export default function Membres() {
                             fontWeight: 800
                           }}
                           onClick={() => {
-                            if (window.confirm(`EXPULSION DÉFINITIVE : Voulez-vous vraiment bannir ${u.name || u.id} ?`)) {
-                              kickUser(u.id);
-                            }
+                            setKickConfirm({ id: u.id, name: u.name || u.id });
                           }}
                         >
                           <UserMinus size={16} /> EXPULSER
