@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
         
         // Setup initial Univers user if database is completely empty
         if (usersData.length === 0) {
-          const initialUser = { name: 'Univers', discordId: '0001', role: ROLES.UNIVERS, password: 'root' };
+          const initialUser = { name: 'Zykrøne 👑', discordId: '0001', role: ROLES.UNIVERS, password: 'root' };
           setDoc(doc(db, 'users', 'univers_root'), initialUser);
           usersData.push({ id: 'univers_root', ...initialUser });
         }
