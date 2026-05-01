@@ -123,14 +123,15 @@ export default function Panel() {
             <div className="profile-pill">
               <div className="profile-info">
                 <span className="profile-name">{currentUser.name}</span>
-                {currentUser.name === 'Univers' ? (
+                {currentUser.role === ROLES.UNIVERS ? (
                   <select 
                     value={currentUser.role} 
                     onChange={(e) => setMyRole(e.target.value)}
                     className="role-pill-select"
+                    style={{ background: 'none', border: 'none', color: 'var(--tech-cyan)', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer', outline: 'none' }}
                   >
                     {Object.values(ROLES).map(r => (
-                      <option key={r} value={r}>{r}</option>
+                      <option key={r} value={r} style={{ background: '#050608', color: '#fff' }}>{r}</option>
                     ))}
                   </select>
                 ) : (
