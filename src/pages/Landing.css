@@ -341,21 +341,23 @@
 }
 
 .signup-btn-premium:hover .signup-btn-inner {
-  background: transparent;
-  color: #000;
+  background: rgba(0, 210, 255, 0.1);
+  color: #fff;
+  text-shadow: 0 0 10px var(--tech-cyan);
 }
 
 .signup-btn-glow {
   position: absolute;
-  inset: -100%;
+  inset: -150%;
   background: conic-gradient(
     from 0deg,
     transparent,
     var(--tech-cyan),
     var(--tech-blue),
-    transparent 40%
+    var(--tech-cyan),
+    transparent 60%
   );
-  animation: rotate-glow 4s linear infinite;
+  animation: rotate-glow 3s linear infinite;
   z-index: 1;
 }
 
@@ -367,10 +369,12 @@
 .signup-icon {
   color: var(--tech-cyan);
   transition: var(--transition);
+  filter: drop-shadow(0 0 5px var(--tech-glow));
 }
 
 .signup-btn-premium:hover .signup-icon {
-  color: #000;
+  color: #fff;
+  filter: drop-shadow(0 0 10px var(--tech-cyan));
 }
 
 @media (max-width: 768px) {
