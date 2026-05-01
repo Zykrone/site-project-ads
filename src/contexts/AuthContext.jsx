@@ -115,6 +115,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const registerRequest = async (discordId, password, pseudo, type) => {
+    // Éviter les doublons de demandes
+    const existing = pendingRequests.find(r => r.discordId === discordId);
+    if (existing) return;
+
     const newRequest = { discordId, password, pseudo, type, status: 'pending', createdAt: Date.now() };
     await addDoc(collection(db, 'requests'), newRequest);
   };

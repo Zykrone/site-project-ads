@@ -12,6 +12,7 @@ export default function Landing() {
   const [formData, setFormData] = useState({ id: '', password: '', discordId: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const containerRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -40,13 +41,24 @@ export default function Landing() {
     else navigate('/panel');
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    if (loading) return;
     if (!formData.discordId || !formData.id || !formData.password) return setError('Informations incomplètes.');
+    
+    setLoading(true);
     const type = view === 'register_ads' ? 'RÉSEAU' : 'GRAB';
-    registerRequest(formData.id, formData.password, formData.discordId, type);
-    setSuccess('TRANSMISSION RÉUSSIE : Demande envoyée au centre.');
-    setTimeout(() => setView('login'), 3000);
+    try {
+      await registerRequest(formData.id, formData.password, formData.discordId, type);
+      setSuccess('TRANSMISSION RÉUSSIE : Demande envoyée au centre.');
+      setTimeout(() => {
+        setView('login');
+        setLoading(false);
+      }, 3000);
+    } catch (err) {
+      setError('ERREUR DE TRANSMISSION');
+      setLoading(false);
+    }
   };
 
   return (
@@ -205,8 +217,13 @@ export default function Landing() {
                   </div>
                 )}
 
-                <button type="submit" className="btn-tech w-full" style={{ padding: '25px', fontSize: '1.1rem' }}>
-                  {view === 'login' ? 'DÉVERROUILLER L\'ACCÈS' : 'TRANSMETTRE LA DEMANDE'} <ChevronRight size={18} />
+                <button 
+                  type="submit" 
+                  className="btn-tech w-full" 
+                  style={{ padding: '25px', fontSize: '1.1rem', opacity: loading ? 0.5 : 1 }}
+                  disabled={loading}
+                >
+                  {loading ? 'TRANSMISSION EN COURS...' : (view === 'login' ? 'DÉVERROUILLER L\'ACCÈS' : 'TRANSMETTRE LA DEMANDE')} <ChevronRight size={18} />
                 </button>
               </form>
 
