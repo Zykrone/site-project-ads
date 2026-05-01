@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Rocket, MessageCircle, ExternalLink, Image as ImageIcon, BarChart3 } from 'lucide-react';
 
-export default function GestionADS() {
+export default function GestionHub() {
   const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
   const item = { hidden: { opacity: 0, scale: 0.95 }, show: { opacity: 1, scale: 1 } };
 

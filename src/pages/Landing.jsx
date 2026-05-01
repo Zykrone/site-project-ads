@@ -67,7 +67,7 @@ export default function Landing() {
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="hero-title"
               >
-                GESTION ADS
+                GESTION HUB
               </motion.h1>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}

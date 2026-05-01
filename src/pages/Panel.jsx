@@ -6,7 +6,7 @@ import {
   Shield, Users, LogOut, Zap, Database, 
   Terminal, BookOpen, Menu, Bell, Hexagon, Globe
 } from 'lucide-react';
-import GestionADS from './GestionADS';
+import GestionHub from './GestionHub';
 import GestionGRAB from './GestionGRAB';
 import Formation from './Formation';
 import Recrutement from './Recrutement';
@@ -158,7 +158,7 @@ export default function Panel() {
               <Routes key={location.pathname}>
                 <Route path="/" element={
                   branch === 'GRAB' ? <Navigate to="/panel/grab" /> :
-                  <ProtectedRoute allowedBranch="RESEAU"><PageTransition><GestionADS /></PageTransition></ProtectedRoute>
+                  <ProtectedRoute allowedBranch="RESEAU"><PageTransition><GestionHub /></PageTransition></ProtectedRoute>
                 } />
                 <Route path="grab" element={<ProtectedRoute allowedBranch="GRAB"><PageTransition><GestionGRAB /></PageTransition></ProtectedRoute>} />
                 <Route path="formation" element={<PageTransition><Formation /></PageTransition>} />
