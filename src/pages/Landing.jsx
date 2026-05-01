@@ -172,13 +172,13 @@ export default function Landing() {
                 </button>
               </form>
 
-              <div className="auth-footer-tech" style={{ marginTop: '60px', padding: '30px', background: 'rgba(255,255,255,0.03)', borderRadius: '25px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                {view === 'login' ? null : (
-                  <button className="text-btn" onClick={() => {setView('login'); setError(''); setSuccess('');}} style={{ background: 'none', color: '#fff', opacity: 0.7, fontSize: '1rem', fontWeight: 700 }}>
-                    RETOUR AU PORTAIL
-                  </button>
-                )}
-                <button className="total-reset-tech" onClick={() => setView('initial')} style={{ display: 'block', margin: '30px auto 0', opacity: 0.3, background: 'none', color: '#fff', fontSize: '0.8rem' }}>ANNULER L'OPÉRATION</button>
+              <div className="auth-footer-clean">
+                <button 
+                  onClick={() => {setView('initial'); setError(''); setSuccess('');}}
+                  className="back-btn-minimal"
+                >
+                  ANNULER L'OPÉRATION
+                </button>
               </div>
             </div>
           </motion.div>
