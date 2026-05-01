@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Landing from './pages/Landing';
 import Panel from './pages/Panel';
 import './index.css';
 
 function AppContent() {
-  const { loading } = useAuth();
+  const { loading, currentUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // Une fois que React est monté, on cache le loading screen de l'index.html
@@ -15,9 +17,15 @@ function AppContent() {
     }
   }, []);
 
+  useEffect(() => {
+    // Si l'utilisateur est déjà connecté et arrive sur la racine, on le redirige vers le panel
+    if (currentUser && (location.pathname === '/' || location.pathname === '')) {
+      navigate('/panel');
+    }
+  }, [currentUser, location.pathname, navigate]);
+
   return (
     <>
-      <div className="cyber-grid-bg"></div>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/panel/*" element={<Panel />} />

@@ -43,6 +43,7 @@
     <div id="loading-screen">
       <div class="spinner"></div>
       <span>CONNEXION AU RÉSEAU...</span>
+      <a href="javascript:location.reload(true)" style="color:rgba(0, 210, 255, 0.3);text-decoration:none;font-size:0.7rem;margin-top:20px;font-family:sans-serif;">RELANCER SI BLOQUÉ</a>
     </div>
     <div id="root"></div>
     <noscript>
@@ -50,7 +51,7 @@
         JavaScript est requis pour accéder à ce site.
       </div>
     </noscript>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="./src/main.jsx" onerror="alert('Erreur: Le script principal n\'a pas pu être chargé. Vérifiez votre connexion.')"></script>
     <script>
       // Cette fonction sera appelée par React quand il sera prêt
       window.hideLoadingScreen = function() {
