@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Landing from './pages/Landing';
@@ -6,6 +7,13 @@ import './index.css';
 
 function AppContent() {
   const { loading } = useAuth();
+
+  useEffect(() => {
+    // Une fois que React est monté, on cache le loading screen de l'index.html
+    if (window.hideLoadingScreen) {
+      window.hideLoadingScreen();
+    }
+  }, []);
 
   return (
     <>

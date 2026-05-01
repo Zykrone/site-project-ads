@@ -50,18 +50,27 @@
         JavaScript est requis pour accéder à ce site.
       </div>
     </noscript>
-    <script type="module" src="src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
     <script>
-      // Masquer le loading screen dès que React prend le relais
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          var el = document.getElementById('loading-screen');
-          if (el) el.style.opacity = '0';
+      // Cette fonction sera appelée par React quand il sera prêt
+      window.hideLoadingScreen = function() {
+        var el = document.getElementById('loading-screen');
+        if (el) {
+          el.style.opacity = '0';
           setTimeout(function() {
-            if (el) el.style.display = 'none';
+            el.style.display = 'none';
           }, 500);
-        }, 300);
-      });
+        }
+      };
+      
+      // Sécurité : si React ne se lance pas après 15s, on montre quand même quelque chose
+      setTimeout(function() {
+        var el = document.getElementById('loading-screen');
+        if (el && el.style.display !== 'none') {
+          // On ne fait rien, on laisse l'utilisateur voir que ça charge encore
+          // ou on pourrait mettre un message d'erreur ici.
+        }
+      }, 15000);
     </script>
   </body>
 </html>
