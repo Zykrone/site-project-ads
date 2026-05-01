@@ -171,16 +171,16 @@
 }
 
 .admin-table th {
-  padding: 15px 30px;
+  padding: 15px 15px;
   text-align: left;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 800;
   color: var(--text-muted);
   text-transform: uppercase;
 }
 
 .admin-table td {
-  padding: 25px 30px;
+  padding: 15px 15px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--glass-border);
   color: #fff;
@@ -305,18 +305,17 @@
   }
 
   .admin-table {
-    display: block;
-    overflow-x: auto;
+    display: table;
+    width: 100%;
+    overflow-x: hidden;
     background: var(--bg-elevated);
     border-radius: var(--radius-md);
   }
 
   .admin-table td, .admin-table th {
-    padding: 15px;
-    font-size: 0.85rem;
+    padding: 10px 8px;
+    font-size: 0.75rem;
   }
-
-  .card-tech {
-    padding: 20px;
-  }
+  
+  .hide-mobile { display: none !important; }
 }

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;800;950&family=Plus+Jakarta+Sans:wght@300;500;700;800&display=swap');
 
+/* Masquer la barre de défilement tout en gardant la fonctionnalité */
+::-webkit-scrollbar { display: none; }
+* { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* ─────────────────────────────────────────
    GESTION ADS — PURE TECH & ROUNDED
 ───────────────────────────────────────── */

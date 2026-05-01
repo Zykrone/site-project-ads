@@ -100,7 +100,7 @@ const TechSelect = ({ value, options = [], onChange, disabledOptions = [], disab
   );
 
   return (
-    <div className="tech-select-container" ref={containerRef} style={{ width: '220px' }}>
+    <div className="tech-select-container" ref={containerRef} style={{ width: '170px' }}>
       <button 
         onClick={toggleDropdown}
         style={{
@@ -309,7 +309,7 @@ export default function Membres() {
                 <tr>
                   <th>PSEUDO</th>
                   <th>BRANCHE</th>
-                  <th>ID DISCORD</th>
+                  <th className="hide-mobile">ID DISCORD</th>
                   <th style={{ textAlign: 'right' }}>DÉCISION</th>
                 </tr>
               </thead>
@@ -329,26 +329,26 @@ export default function Membres() {
                         {req.type}
                       </span>
                     </td>
-                    <td>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', opacity: 0.8, fontSize: '1.1rem' }}>
-                        <AtSign size={18} /> {req.discordId || 'N/A'}
+                    <td className="hide-mobile">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.5, fontSize: '0.85rem', fontFamily: 'monospace' }}>
+                        {req.discordId || 'N/A'}
                       </div>
                     </td>
                     <td style={{ textAlign: 'right' }}>
-                      <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
+                      <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                         <button 
                           className="btn-tech"
-                          style={{ padding: '12px 30px', fontSize: '0.85rem' }}
+                          style={{ padding: '10px 20px', fontSize: '0.75rem', fontWeight: 800 }}
                           onClick={() => acceptRequest(req.id, req.type === 'RÉSEAU' ? ROLES.GESTION_RESEAU : ROLES.GESTION_GRAB)}
                         >
                            ADMETTRE
                         </button>
                         <button 
                           className="logout-btn"
-                          style={{ width: '50px', height: '50px' }}
+                          style={{ width: '40px', height: '40px' }}
                           onClick={() => rejectRequest(req.id)}
                         >
-                           <X size={24} />
+                           <X size={20} />
                         </button>
                       </div>
                     </td>
@@ -372,17 +372,17 @@ export default function Membres() {
             <thead>
               <tr>
                 <th>PSEUDO</th>
-                <th>ID DISCORD</th>
-                <th>GRADE ACTUEL</th>
-                <th>MODIFICATION</th>
-                <th style={{ textAlign: 'right' }}>ACTION CRITIQUE</th>
+                <th className="hide-mobile">ID DISCORD</th>
+                <th>GRADE</th>
+                <th>MODIFIER</th>
+                <th style={{ textAlign: 'right' }}>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
               {Array.isArray(users) && users.map(u => (
                 <tr key={u.id}>
                   <td style={{ fontWeight: 800, fontSize: '1.1rem' }}>{u.name || u.id}</td>
-                  <td style={{ opacity: 0.7, fontSize: '1.1rem' }}>{u.discordId || '---'}</td>
+                  <td className="hide-mobile" style={{ opacity: 0.5, fontSize: '0.8rem', fontFamily: 'monospace' }}>{u.discordId || '---'}</td>
                   <td>
                     <span style={{ 
                       padding: '8px 20px', 
@@ -410,48 +410,50 @@ export default function Membres() {
                   </td>
                   <td style={{ textAlign: 'right' }}>
                     <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                      <button 
-                        className="btn-tech"
-                        style={{ 
-                          background: 'rgba(0, 210, 255, 0.1)', 
-                          border: '1px solid rgba(0, 210, 255, 0.3)',
-                          color: 'var(--tech-cyan)',
-                          padding: '12px 20px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '10px',
-                          fontSize: '0.8rem',
-                          fontWeight: 800
-                        }}
-                        onClick={async () => {
-                          const newPass = await resetUserPassword(u.id);
-                          setResetResult({ name: u.name || u.id, password: newPass });
-                        }}
-                      >
-                        <RefreshCcw size={16} /> RÉINITIALISER
-                      </button>
-
-                      {u.id !== currentUser.id && (
                         <button 
                           className="btn-tech"
                           style={{ 
-                            background: 'rgba(255, 45, 85, 0.1)', 
-                            border: '1px solid rgba(255, 45, 85, 0.3)',
-                            color: '#ff2d55',
-                            padding: '12px 20px',
+                            background: 'rgba(0, 210, 255, 0.1)', 
+                            border: '1px solid rgba(0, 210, 255, 0.3)',
+                            color: 'var(--tech-cyan)',
+                            padding: '10px 15px',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '10px',
-                            fontSize: '0.8rem',
-                            fontWeight: 800
+                            gap: '8px',
+                            fontSize: '0.75rem',
+                            fontWeight: 800,
+                            whiteSpace: 'nowrap'
                           }}
-                          onClick={() => {
-                            setKickConfirm({ id: u.id, name: u.name || u.id });
+                          onClick={async () => {
+                            const newPass = await resetUserPassword(u.id);
+                            setResetResult({ name: u.name || u.id, password: newPass });
                           }}
                         >
-                          <UserMinus size={16} /> EXPULSER
+                          <RefreshCcw size={14} /> RESET
                         </button>
-                      )}
+
+                        {u.id !== currentUser.id && (
+                          <button 
+                            className="btn-tech"
+                            style={{ 
+                              background: 'rgba(255, 45, 85, 0.1)', 
+                              border: '1px solid rgba(255, 45, 85, 0.3)',
+                              color: '#ff2d55',
+                              padding: '10px 15px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              fontSize: '0.75rem',
+                              fontWeight: 800,
+                              whiteSpace: 'nowrap'
+                            }}
+                            onClick={() => {
+                              setKickConfirm({ id: u.id, name: u.name || u.id });
+                            }}
+                          >
+                            <UserMinus size={14} /> BAN
+                          </button>
+                        )}
                     </div>
                   </td>
                 </tr>
