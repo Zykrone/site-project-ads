@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, MessageSquare, Users, CheckCircle2, AlertCircle, Clock, Mic, BookOpen, Info, ChevronRight, Zap } from 'lucide-react';
+import { ShieldAlert, MessageSquare, Users, AlertCircle, Clock, Mic, BookOpen, Info, Zap } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 // ─── COMPOSANTS UTILITAIRES ───

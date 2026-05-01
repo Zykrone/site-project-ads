@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Shield, Users, LogOut, Zap, Database, 
-  Terminal, BookOpen, Menu, Bell, Hexagon, Globe
+  Shield, LogOut, Hexagon
 } from 'lucide-react';
 import GestionHub from './GestionHub';
 import GestionGRAB from './GestionGRAB';
