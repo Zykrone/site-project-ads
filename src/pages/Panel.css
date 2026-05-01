@@ -171,16 +171,16 @@
 }
 
 .admin-table th {
-  padding: 15px 15px;
+  padding: 20px 30px;
   text-align: left;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   color: var(--text-muted);
   text-transform: uppercase;
 }
 
 .admin-table td {
-  padding: 15px 15px;
+  padding: 25px 30px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--glass-border);
   color: #fff;

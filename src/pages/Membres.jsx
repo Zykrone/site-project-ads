@@ -371,26 +371,30 @@ export default function Membres() {
           <table className="admin-table">
             <thead>
               <tr>
-                <th>PSEUDO</th>
-                <th className="hide-mobile">ID DISCORD</th>
+                <th style={{ paddingLeft: '40px' }}>OPÉRATEUR</th>
                 <th>GRADE</th>
-                <th>MODIFIER</th>
-                <th style={{ textAlign: 'right' }}>ACTIONS</th>
+                <th>GESTION RANG</th>
+                <th style={{ textAlign: 'right', paddingRight: '40px' }}>PROTOCOLES</th>
               </tr>
             </thead>
             <tbody>
               {Array.isArray(users) && users.map(u => (
                 <tr key={u.id}>
-                  <td style={{ fontWeight: 800, fontSize: '1.1rem' }}>{u.name || u.id}</td>
-                  <td className="hide-mobile" style={{ opacity: 0.5, fontSize: '0.8rem', fontFamily: 'monospace' }}>{u.discordId || '---'}</td>
+                  <td style={{ paddingLeft: '40px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      <span style={{ fontWeight: 800, fontSize: '1.2rem', color: '#fff' }}>{u.name || u.id}</span>
+                      <span style={{ opacity: 0.3, fontSize: '0.75rem', fontFamily: 'monospace', letterSpacing: '1px' }}>ID: {u.discordId || '---'}</span>
+                    </div>
+                  </td>
                   <td>
                     <span style={{ 
-                      padding: '8px 20px', 
+                      padding: '10px 24px', 
                       background: 'rgba(255,255,255,0.05)', 
                       borderRadius: '100px', 
-                      fontSize: '0.9rem', 
+                      fontSize: '0.85rem', 
                       fontWeight: 900,
-                      color: u.role === ROLES.UNIVERS ? 'var(--tech-cyan)' : '#fff'
+                      color: u.role === ROLES.UNIVERS ? 'var(--tech-cyan)' : '#fff',
+                      border: u.role === ROLES.UNIVERS ? '1px solid rgba(0, 210, 255, 0.3)' : '1px solid rgba(255,255,255,0.1)'
                     }}>
                       {u.role}
                     </span>
@@ -408,19 +412,19 @@ export default function Membres() {
                       }}
                     />
                   </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                  <td style={{ textAlign: 'right', paddingRight: '40px' }}>
+                    <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
                         <button 
                           className="btn-tech"
                           style={{ 
-                            background: 'rgba(0, 210, 255, 0.1)', 
-                            border: '1px solid rgba(0, 210, 255, 0.3)',
+                            background: 'rgba(0, 210, 255, 0.05)', 
+                            border: '1px solid rgba(0, 210, 255, 0.2)',
                             color: 'var(--tech-cyan)',
-                            padding: '10px 15px',
+                            padding: '12px 25px',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '8px',
-                            fontSize: '0.75rem',
+                            gap: '10px',
+                            fontSize: '0.8rem',
                             fontWeight: 800,
                             whiteSpace: 'nowrap'
                           }}
@@ -429,21 +433,21 @@ export default function Membres() {
                             setResetResult({ name: u.name || u.id, password: newPass });
                           }}
                         >
-                          <RefreshCcw size={14} /> RESET
+                          <RefreshCcw size={16} /> RÉINITIALISER
                         </button>
 
                         {u.id !== currentUser.id && (
                           <button 
                             className="btn-tech"
                             style={{ 
-                              background: 'rgba(255, 45, 85, 0.1)', 
-                              border: '1px solid rgba(255, 45, 85, 0.3)',
+                              background: 'rgba(255, 45, 85, 0.05)', 
+                              border: '1px solid rgba(255, 45, 85, 0.2)',
                               color: '#ff2d55',
-                              padding: '10px 15px',
+                              padding: '12px 25px',
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '8px',
-                              fontSize: '0.75rem',
+                              gap: '10px',
+                              fontSize: '0.8rem',
                               fontWeight: 800,
                               whiteSpace: 'nowrap'
                             }}
@@ -451,7 +455,7 @@ export default function Membres() {
                               setKickConfirm({ id: u.id, name: u.name || u.id });
                             }}
                           >
-                            <UserMinus size={14} /> BAN
+                            <UserMinus size={16} /> EXPULSER
                           </button>
                         )}
                     </div>
