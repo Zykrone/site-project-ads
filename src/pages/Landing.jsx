@@ -60,14 +60,14 @@ export default function Landing() {
             exit={{ opacity: 0, scale: 1.05 }}
             className="hero-section"
           >
-            <div className="hero-content">
+            <div className="text-center mb-16">
               <motion.h1 
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="hero-title"
               >
-                GESTION HUB
+                GESTION ADS
               </motion.h1>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
@@ -103,6 +103,44 @@ export default function Landing() {
               />
             </motion.div>
           </motion.div>
+        ) : view === 'register_choice' ? (
+          <motion.div 
+            key="choice"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            className="auth-container"
+          >
+            <div className="auth-card-tech">
+              <div className="auth-header-tech">
+                <h2>CHOIX DE LA BRANCHE</h2>
+                <p>Sélectionnez votre unité opérationnelle pour soumettre votre demande.</p>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '20px', marginTop: '40px' }}>
+                <button 
+                  className="btn-tech" 
+                  style={{ flex: 1, padding: '30px', display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center' }}
+                  onClick={() => setView('register_ads')}
+                >
+                  <Shield size={32} />
+                  <span>RÉSEAU</span>
+                </button>
+                <button 
+                  className="btn-tech" 
+                  style={{ flex: 1, padding: '30px', display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center', borderColor: '#0066ff' }}
+                  onClick={() => setView('register_grab')}
+                >
+                  <Database size={32} />
+                  <span>GRAB</span>
+                </button>
+              </div>
+
+              <div className="auth-footer-clean">
+                <button onClick={() => setView('initial')} className="back-btn-minimal">RETOUR</button>
+              </div>
+            </div>
+          </motion.div>
         ) : (
           <motion.div 
             key="auth"
@@ -113,7 +151,7 @@ export default function Landing() {
           >
             <div className="auth-card-tech">
               <div className="auth-header-tech">
-                <h2>{view === 'login' ? 'IDENTIFICATION' : 'LAISON CENTRE'}</h2>
+                <h2>{view === 'login' ? 'IDENTIFICATION' : 'LIAISON CENTRE'}</h2>
                 <p>{view === 'login' ? 'Accédez au centre de commande.' : 'Enregistrez votre unité opérationnelle.'}</p>
               </div>
 
@@ -160,7 +198,7 @@ export default function Landing() {
                     <input 
                       className="tech-input"
                       type="text" 
-                      placeholder="Votre pseudo actuel..."
+                      placeholder="Ex: Zykrone"
                       value={formData.discordId}
                       onChange={e => setFormData({...formData, discordId: e.target.value})}
                     />
@@ -185,7 +223,6 @@ export default function Landing() {
         )}
       </AnimatePresence>
 
-      {/* Floating Signup Button */}
       <AnimatePresence>
         {view === 'initial' && (
           <motion.div 
@@ -198,7 +235,7 @@ export default function Landing() {
               className="signup-btn-premium"
               whileHover={{ scale: 1.05, boxShadow: '0 0 40px var(--tech-glow)' }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setView('register_ads')}
+              onClick={() => setView('register_choice')}
             >
               <div className="signup-btn-inner">
                 <Shield size={20} className="signup-icon" />
