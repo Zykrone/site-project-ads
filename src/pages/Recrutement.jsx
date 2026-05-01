@@ -261,7 +261,7 @@ export default function Recrutement() {
     <div className="view-container">
       <div className="text-center mb-12">
         <div className="badge mx-auto"><Users size={14} /> PÔLE RECRUTEMENT</div>
-        <h1 className="mt-4">LOGISTIQUE <span className="title-grad">{selectedBranch.toUpperCase()}</span></h1>
+        <h1 className="mt-4">RECRUTEMENT <span className="title-grad">{selectedBranch.toUpperCase()}</span></h1>
         
         {isGlobalManager && (
           <div className="secondary-nav" style={{ marginTop: '30px' }}>
@@ -293,47 +293,50 @@ export default function Recrutement() {
             {/* GUIDE ET ÉTAPES */}
             <section>
               <h2 className="mb-8 glow-tech" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                <BookOpen size={24} /> PROTOCOLE OPÉRATIONNEL
+                <BookOpen size={24} /> GUIDE COMPLET DE RECRUTEMENT
               </h2>
 
-              <StepCard step="1" icon={<MessageSquare size={18} />} title="INITIALISATION DU TICKET">
-                <InfoRow emoji="🎯" text="Établir le premier contact et présenter la structure." />
-                <InfoRow emoji="・" text="Vérifier que le candidat a bien lu les conditions." />
-                <InfoRow emoji="・" text="Demander la complétion de la candidature type." />
+              <StepCard step="1" icon={<MessageSquare size={18} />} title="PREMIER MESSAGE DANS LE TICKET">
+                <InfoRow emoji="🎯" text="Objectif : expliquer rapidement les étapes au candidat" />
+                <InfoRow emoji="・" text="Être clair et rapide" />
+                <InfoRow emoji="・" text="Expliquer les étapes simplement" />
+                <InfoRow emoji="・" text="Ne pas faire de long message" />
+                <InfoRow emoji="・" text="Attendre que le candidat remplisse avant de continuer" />
               </StepCard>
               
               <CopyBlock
-                title="MESSAGE D'OUVERTURE"
-                objective="Message automatique de bienvenue et instructions."
+                title="MESSAGE D'ACCUEIL TICKET"
+                objective="Premier contact — expliquer les étapes au candidat"
                 text={templates.ticket}
               />
 
-              <StepCard step="2" icon={<Clock size={18} />} title="PLANIFICATION VOCALE" color="#ffb800">
-                <InfoRow emoji="🎯" text="Définir un créneau pour l'évaluation en direct." />
-                <InfoRow emoji="・" text="Relever l'ID Discord pour la traçabilité." />
-                <InfoRow emoji="・" text="Préparer les accès vocaux en amont." />
-                <Warn>La ponctualité est le premier critère de sélection.</Warn>
+              <StepCard step="2" icon={<Clock size={18} />} title="DEMANDE DES DISPONIBILITÉS" color="#ffb800">
+                <InfoRow emoji="🎯" text="Objectif : organiser l'entretien vocal" />
+                <InfoRow emoji="・" text="Demander quand le candidat est disponible" />
+                <InfoRow emoji="・" text="Une fois qu'il répond → noter dans le ticket (+entretien + son ID Discord)" />
+                <InfoRow emoji="・" text="Lui donner accès au vocal et se préparer à l'entretien" />
+                <Warn>Être rapide et organisé — ne pas oublier de noter son ID — vérifier l'accès vocal avant l'entretien</Warn>
               </StepCard>
               
               <CopyBlock
-                title="DEMANDE DE DISPONIBILITÉS"
-                objective="Récupération des créneaux horaires."
+                title="MESSAGE DISPONIBILITÉS"
+                objective="Demander les créneaux du candidat"
                 text={templates.dispo}
               />
 
-              <StepCard step="3" icon={<Mic size={18} />} title="CONDUITE DE L'ENTRETIEN" color="#7000ff">
-                <InfoRow emoji="🎯" text="Évaluer la psychologie et la réactivité du candidat." />
-                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Checklist Senior :</p>
-                <InfoRow emoji="✅" text="Isolation en salon privé." />
-                <InfoRow emoji="✅" text="Vérification de l'âge et de la maturité." />
-                <InfoRow emoji="✅" text="Analyse des mises en situation." />
+              <StepCard step="3" icon={<Mic size={18} />} title="PRÉPARER ET FAIRE PASSER L'ENTRETIEN" color="#7000ff">
+                <InfoRow emoji="🎯" text="Objectif : être prêt + évaluer le candidat correctement" />
+                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Avant l'entretien :</p>
+                <InfoRow emoji="・" text="Aller dans votre salon privé" />
+                <InfoRow emoji="・" text="Vérifier l'âge et la maturité" />
+                <InfoRow emoji="・" text="Lancer l'enregistrement ou prendre des notes" />
               </StepCard>
             </section>
 
             {/* OUTILS ET TEMPLATES */}
             <section>
               <h2 className="mb-8 glow-tech" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                <Zap size={24} /> OUTILS DE GESTION
+                <Zap size={24} /> OUTILS ET TEMPLATES
               </h2>
 
               <CopyBlock
