@@ -198,11 +198,11 @@ export default function Landing() {
               className="signup-btn-premium"
               whileHover={{ scale: 1.05, boxShadow: '0 0 40px var(--tech-glow)' }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setView(view === 'login' ? 'register_ads' : 'login')}
+              onClick={() => setView('register_ads')}
             >
               <div className="signup-btn-inner">
                 <Shield size={20} className="signup-icon" />
-                <span>{view === 'login' ? 'CRÉER UN COMPTE' : 'IDENTIFICATION'}</span>
+                <span>CRÉER UN COMPTE</span>
               </div>
               <div className="signup-btn-glow"></div>
             </motion.button>
