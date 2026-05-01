@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Zap, Database, Lock, Key, Fingerprint, AtSign, ChevronRight } from 'lucide-react';
+import { Shield, Database, ChevronRight } from 'lucide-react';
 import './Landing.css';
 
 export default function Landing() {
-  const { login, registerRequest, currentUser } = useAuth();
+  const { login, registerRequest } = useAuth();
   const navigate = useNavigate();
   const [view, setView] = useState('initial'); 
   const [formData, setFormData] = useState({ id: '', password: '', discordId: '' });
@@ -55,7 +55,7 @@ export default function Landing() {
         setView('login');
         setLoading(false);
       }, 3000);
-    } catch (err) {
+    } catch (_) {
       setError('ERREUR DE TRANSMISSION');
       setLoading(false);
     }
