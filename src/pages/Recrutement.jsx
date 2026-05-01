@@ -1,41 +1,60 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, MessageSquare, Users, CheckCircle2, AlertCircle, Clock, Mic, BookOpen, Info } from 'lucide-react';
+import { ShieldAlert, MessageSquare, Users, CheckCircle2, AlertCircle, Clock, Mic, BookOpen, Info, ChevronRight, Zap } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+
+// ─── COMPOSANTS UTILITAIRES ───
 
 const CopyBlock = ({ title, icon, objective, text, accent = 'cyan' }) => {
   const [copied, setCopied] = useState(false);
+  
   const handleCopy = () => {
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
   const color = accent === 'red' ? '#ff2d55' : 'var(--tech-cyan)';
+  
   return (
-    <div className="card-tech mb-8" style={{ borderLeft: `4px solid ${color}` }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color }}>
-          {icon || <MessageSquare size={18} />} {title}
+    <div className="card-tech mb-8" style={{ borderLeft: `4px solid ${color}`, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
+        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', color, margin: 0, fontSize: '1.1rem' }}>
+          {icon || <MessageSquare size={20} />} {title}
         </h3>
         <button
           className="btn-tech"
-          style={{ padding: '8px 20px', fontSize: '0.7rem', background: copied ? 'var(--success-green)' : undefined, color: copied ? '#000' : undefined }}
+          style={{ 
+            padding: '8px 20px', 
+            fontSize: '0.75rem', 
+            background: copied ? 'var(--success-green)' : 'rgba(255,255,255,0.05)', 
+            color: copied ? '#000' : '#fff',
+            border: copied ? 'none' : '1px solid rgba(255,255,255,0.1)'
+          }}
           onClick={handleCopy}
         >
           {copied ? '✓ COPIÉ !' : 'COPIER'}
         </button>
       </div>
-      {objective && <p style={{ color: 'var(--text-soft)', marginBottom: '1rem', fontStyle: 'italic', fontSize: '0.85rem' }}>🎯 {objective}</p>}
+      
+      {objective && (
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '1.5rem', padding: '10px 15px', background: 'rgba(255,255,255,0.03)', borderRadius: '10px' }}>
+          <span style={{ fontSize: '1.2rem' }}>🎯</span>
+          <p style={{ color: 'var(--text-soft)', margin: 0, fontStyle: 'italic', fontSize: '0.85rem' }}>{objective}</p>
+        </div>
+      )}
+      
       <pre style={{
-        background: 'rgba(0,0,0,0.35)',
-        padding: '20px',
+        background: '#000',
+        padding: '25px',
         borderRadius: '16px',
         border: '1px solid rgba(255,255,255,0.06)',
         whiteSpace: 'pre-wrap',
         fontFamily: 'monospace',
-        fontSize: '0.88rem',
-        color: '#fff',
-        lineHeight: '1.7'
+        fontSize: '0.9rem',
+        color: '#ccc',
+        lineHeight: '1.8',
+        margin: 0
       }}>
         {text}
       </pre>
@@ -48,63 +67,75 @@ const StepCard = ({ step, icon, title, color = 'var(--tech-cyan)', children }) =
     className="card-tech mb-6"
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
-    style={{ borderLeft: `4px solid ${color}`, position: 'relative', overflow: 'visible' }}
+    style={{ borderLeft: `4px solid ${color}`, padding: '30px' }}
   >
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.2rem' }}>
-      <div style={{
-        width: '38px', height: '38px', borderRadius: '50%',
-        background: `${color}22`, border: `2px solid ${color}`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color, fontWeight: 950, fontSize: '1rem', flexShrink: 0
+    <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
+      <div style={{ 
+        width: '32px', height: '32px', 
+        borderRadius: '50%', background: color, 
+        color: '#000', display: 'flex', 
+        alignItems: 'center', justifyContent: 'center', 
+        fontWeight: 900, fontSize: '0.9rem' 
       }}>
         {step}
       </div>
-      <h3 style={{ color, display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '1rem', margin: 0, lineHeight: 1.2 }}>
+      <h3 style={{ margin: 0, fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
         {icon} {title}
       </h3>
     </div>
-    <div className="step-content">
+    <div style={{ paddingLeft: '47px' }}>
       {children}
     </div>
-    <style>{`
-      .step-content { padding-left: 3.2rem; }
-      @media (max-width: 768px) {
-        .step-content { padding-left: 0; margin-top: 1rem; }
-      }
-    `}</style>
   </motion.div>
 );
 
 const InfoRow = ({ emoji, text }) => (
-  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', marginBottom: '0.5rem', fontSize: '0.95rem', color: 'var(--text-soft)' }}>
-    <span>{emoji}</span><span>{text}</span>
+  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '10px', fontSize: '0.9rem', color: 'var(--text-soft)' }}>
+    <span style={{ opacity: 0.8 }}>{emoji}</span>
+    <span style={{ lineHeight: 1.5 }}>{text}</span>
   </div>
 );
 
 const Warn = ({ children }) => (
-  <div style={{ marginTop: '1rem', padding: '12px 18px', background: 'rgba(255,45,85,0.08)', border: '1px solid rgba(255,45,85,0.25)', borderRadius: '12px', color: '#ff2d55', fontSize: '0.88rem', fontWeight: 700 }}>
-    ⚠️ {children}
+  <div style={{ 
+    marginTop: '20px', 
+    padding: '15px 20px', 
+    background: 'rgba(255,45,85,0.05)', 
+    border: '1px solid rgba(255,45,85,0.2)', 
+    borderRadius: '12px', 
+    color: '#ff2d55', 
+    fontSize: '0.85rem', 
+    fontWeight: 600,
+    display: 'flex',
+    gap: '12px',
+    alignItems: 'center'
+  }}>
+    <AlertCircle size={18} />
+    <span>{children}</span>
   </div>
 );
 
-// ─── TEMPLATES RÉSEAU ───
-const msgTicketReseau = `👋 Bonjour,
+// ─── TEMPLATES & CONTENU ───
+
+const TEMPLATES = {
+  reseau: {
+    ticket: `👋 Bonjour,
 
 Je t’invite à prendre connaissance des conditions de recrutement disponibles ici : RC ADS📍・conditions-recrutement-reseau….
 
 Une fois celles-ci lues, merci de compléter ta candidature dans le salon suivant : RC ADS📋・exemple-candidature.
 
-N’hésite pas à bien remplir toutes les informations demandées afin que ta demande puisse être traitée rapidement.`;
-
-const msgDispoReseau = `Bonjour !
+N’hésite pas à bien remplir toutes les informations demandées afin que ta demande puisse être traitée rapidement.`,
+    
+    dispo: `Bonjour !
 
 Merci d’avoir complété ta candidature. 🙏
 
 Afin de planifier ton entretien vocal, pourrais-tu m’indiquer tes disponibilités (jours et créneaux horaires) ?
 
-Dès que tu m’auras répondu, je noterai le rendez-vous et t’activerai l’accès au salon vocal.`;
-
-const questionsReseau = `Candidat :
+Dès que tu m’auras répondu, je noterai le rendez-vous et t’activerai l’accès au salon vocal.`,
+    
+    questions: `Candidat :
 <@id> / id
 Réalisé par : 
 
@@ -124,78 +155,63 @@ Réponse :
 
 Questions de mise en situation 
 
-Question : Que ferais-tu si un de tes collègues gestions abuse de ses permissions devant tes yeux ?
+Question : comment réagis-tu face à un utilisateur agressif ou irrespectueux dans les salons publics ?
+Réponse : 
+
+Question : Un utilisateur se plaint d’avoir été banni injustement, que fais-tu ?
+Réponse : 
+
+Question : si un membre de l'équipe de modération ne respecte pas les règles que fait tu ?
+Réponse :`,
+    
+    recap: `Compte-rendu d’entretien - Réseau
+
+Candidat : <@id>
+Discord ID : 
+Date : 
+
+Avis global : 
+Points forts : 
+Points faibles : 
+
+Décision finale : ✅ ADMIS / ❌ REFUSÉ / ⏳ EN ATTENTE`
+  },
+  
+  grab: {
+    ticket: `👋 Salutations,
+
+Merci de l'intérêt porté à la branche GRAB. Voici la marche à suivre :
+
+1. Prends connaissance du règlement GRAB ici : [LINK].
+2. Remplis le formulaire de candidature disponible dans ce salon.
+
+Une fois terminé, un responsable examinera ton dossier.`,
+    
+    dispo: `Hello, ton dossier a retenu notre attention. 🎯
+
+Indique-nous tes prochaines disponibilités pour un court entretien de validation.`,
+    
+    questions: `Candidat : <@id>
+Branche : GRAB
+
+Question : Pourquoi souhaites-tu rejoindre la section GRAB ?
 Réponse :
 
-Question : Comment réagirais-tu si un de tes Supérieurs hiérarchique te met un avertissement ou un rappel ?
-Réponse :
+Question : Quelle est ton expérience dans l'acquisition de membres ?
+Réponse :`,
+    
+    recap: `CR Entretien GRAB
+Candidat : <@id>
+Status : ✅ ADMIS / ❌ REFUSÉ`
+  },
 
-Question : Possèdes-tu un ordinateur ?
-reponse : 
+  salons: `💬 SALONS RÉSEAUX 💬
 
-Question: Es-ce que tu as de l'expérience en tant qu'influenceur ?
-réponse : `;
+📍・conditions-recrutement-reseau
+→ Règlement & Prérequis.
 
-// ─── TEMPLATE GRAB ───
-const questionsGrab = `Candidat <@id> / id
-> Réalisé par : <@ton_id>
-
-**Question : Quelles qualités te semblent indispensables pour occuper le poste de grabeur ?**
-Réponse : 
- 
-**Question : À quoi résumes-tu le rôle d’un Gestion Grab ?**
-Reponse : 
-
-**Questions de mise en situation**
-
-**Question : Que ferais-tu si un de tes collègues gestions abuse de ses permissions devant tes yeux ?**
-Réponse : 
-
-**Question : Comment réagirais-tu si un de tes Hauts Gradés te met un avertissement ou un rappel ?**
-Réponse : 
-
-**Question : Possèdes-tu un ordinateur ?**
-réponse : `;
-
-// ─── INFOS SERVEUR RÉSEAU ───
-const infoCommune = `📁 INFO COMMUNE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📣・annonces
-→ Salon des annonces officielles. À consulter régulièrement.
-
-📜・règlement-gestion
-→ Toutes les règles de fonctionnement. Lecture obligatoire.
-
-📝・récap-réunion
-→ Résumés des réunions. Decisions + points importants.
-
-💬・chat
-→ Discussion générale. Espace libre, respect obligatoire.
-
-🚫・absences
-→ Signaler les absences. Voir le message épinglé pour la procédure.`;
-
-const infoReseau = `📁 INFO RÉSEAUX
-━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📣・annonce-réseaux
-→ Annonces officielles réseau. À lire obligatoirement.
-
-❓・comment-rank-up
-→ Conditions de rank-up. Les vues sont le critère principal.
-
-🧭・hiérarchie-réseaux
-→ Hiérarchie des grades. Voir qui est supérieur à qui.
-
-📊・résultats
-→ Résultats (rank up / rank down). À consulter sam/dim.
-
-✳️・travail-à-faire
-→ Liste des tâches à effectuer.
-
-💡・idées-tiktok
-→ Proposer des idées de contenus TikTok.
+📋・exemple-candidature
+→ Template officiel à suivre.
 
 📑・cr-réseaux / cr-réseaux senior
 → Comptes-rendus des actions importantes.
@@ -207,11 +223,15 @@ const infoReseau = `📁 INFO RÉSEAUX
 → Résumés des réunions passées.
 
 📍・réunion réseaux
-→ Réunions officielles. Organisation + annonces en direct.`;
+→ Réunions officielles. Organisation + annonces en direct.`
+};
+
+// ─── COMPOSANT PRINCIPAL ───
 
 export default function Recrutement() {
   const { currentUser, ROLES, getBranch } = useAuth();
   const role = currentUser?.role;
+  
   const isSeniorPlus = [
     ROLES.UNIVERS,
     ROLES.GERANT_RESEAU, ROLES.GERANT_GRAB,
@@ -235,15 +255,28 @@ export default function Recrutement() {
     );
   }
 
+  const templates = selectedBranch === 'reseau' ? TEMPLATES.reseau : TEMPLATES.grab;
+
   return (
     <div className="view-container">
       <div className="text-center mb-12">
         <div className="badge mx-auto"><Users size={14} /> PÔLE RECRUTEMENT</div>
-        <h1 className="mt-4">RECRUTEMENT <span className="title-grad">{selectedBranch.toUpperCase()}</span></h1>
+        <h1 className="mt-4">LOGISTIQUE <span className="title-grad">{selectedBranch.toUpperCase()}</span></h1>
+        
         {isGlobalManager && (
-          <div className="secondary-nav" style={{ marginTop: '20px' }}>
-            <button className={`secondary-link ${selectedBranch === 'reseau' ? 'active' : ''}`} onClick={() => setSelectedBranch('reseau')}>BRANCHE RÉSEAU</button>
-            <button className={`secondary-link ${selectedBranch === 'grab' ? 'active' : ''}`} onClick={() => setSelectedBranch('grab')}>BRANCHE GRAB</button>
+          <div className="secondary-nav" style={{ marginTop: '30px' }}>
+            <button 
+              className={`secondary-link ${selectedBranch === 'reseau' ? 'active' : ''}`} 
+              onClick={() => setSelectedBranch('reseau')}
+            >
+              BRANCHE RÉSEAU
+            </button>
+            <button 
+              className={`secondary-link ${selectedBranch === 'grab' ? 'active' : ''}`} 
+              onClick={() => setSelectedBranch('grab')}
+            >
+              BRANCHE GRAB
+            </button>
           </div>
         )}
       </div>
@@ -251,121 +284,91 @@ export default function Recrutement() {
       <AnimatePresence mode="wait">
         <motion.div
           key={selectedBranch}
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         >
-          {selectedBranch === 'reseau' ? (
-            <div className="formation-grid">
-              {/* GUIDE RECRUTEMENT RÉSEAU */}
-              <section>
-                <h2 className="mb-8 glow-tech" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                  <BookOpen size={24} /> GUIDE COMPLET DE RECRUTEMENT
-                </h2>
+          <div className="formation-grid">
+            {/* GUIDE ET ÉTAPES */}
+            <section>
+              <h2 className="mb-8 glow-tech" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                <BookOpen size={24} /> PROTOCOLE OPÉRATIONNEL
+              </h2>
 
-                {/* ÉTAPE 1 */}
-                <StepCard step="1" icon={<MessageSquare size={16} />} title="PREMIER MESSAGE DANS LE TICKET">
-                  <InfoRow emoji="🎯" text="Objectif : expliquer rapidement les étapes au candidat" />
-                  <InfoRow emoji="・" text="Être clair et rapide" />
-                  <InfoRow emoji="・" text="Expliquer les étapes simplement" />
-                  <InfoRow emoji="・" text="Ne pas faire de long message" />
-                  <InfoRow emoji="・" text="Attendre que le candidat remplisse avant de continuer" />
-                </StepCard>
-                <CopyBlock
-                  title="MESSAGE D'ACCUEIL TICKET"
-                  objective="Premier contact — expliquer les étapes au candidat"
-                  text={msgTicketReseau}
-                />
+              <StepCard step="1" icon={<MessageSquare size={18} />} title="INITIALISATION DU TICKET">
+                <InfoRow emoji="🎯" text="Établir le premier contact et présenter la structure." />
+                <InfoRow emoji="・" text="Vérifier que le candidat a bien lu les conditions." />
+                <InfoRow emoji="・" text="Demander la complétion de la candidature type." />
+              </StepCard>
+              
+              <CopyBlock
+                title="MESSAGE D'OUVERTURE"
+                objective="Message automatique de bienvenue et instructions."
+                text={templates.ticket}
+              />
 
-                {/* ÉTAPE 2 */}
-                <StepCard step="2" icon={<Clock size={16} />} title="DEMANDE DES DISPONIBILITÉS" color="#ffb800">
-                  <InfoRow emoji="🎯" text="Objectif : organiser l'entretien vocal" />
-                  <InfoRow emoji="・" text="Demander quand le candidat est disponible" />
-                  <InfoRow emoji="・" text="Une fois qu'il répond → noter dans le ticket (+entretien + son ID Discord)" />
-                  <InfoRow emoji="・" text="Lui donner accès au vocal et se préparer à l'entretien" />
-                  <Warn>Être rapide et organisé — ne pas oublier de noter son ID — vérifier l'accès vocal avant l'entretien</Warn>
-                </StepCard>
-                <CopyBlock
-                  title="MESSAGE DISPONIBILITÉS"
-                  objective="Demander les créneaux du candidat"
-                  text={msgDispoReseau}
-                  accent="cyan"
-                />
+              <StepCard step="2" icon={<Clock size={18} />} title="PLANIFICATION VOCALE" color="#ffb800">
+                <InfoRow emoji="🎯" text="Définir un créneau pour l'évaluation en direct." />
+                <InfoRow emoji="・" text="Relever l'ID Discord pour la traçabilité." />
+                <InfoRow emoji="・" text="Préparer les accès vocaux en amont." />
+                <Warn>La ponctualité est le premier critère de sélection.</Warn>
+              </StepCard>
+              
+              <CopyBlock
+                title="DEMANDE DE DISPONIBILITÉS"
+                objective="Récupération des créneaux horaires."
+                text={templates.dispo}
+              />
 
-                {/* ÉTAPE 3 */}
-                <StepCard step="3" icon={<Mic size={16} />} title="PRÉPARER ET FAIRE PASSER L'ENTRETIEN" color="#7000ff">
-                  <InfoRow emoji="🎯" text="Objectif : être prêt + évaluer le candidat correctement" />
-                  <p style={{ color: 'var(--text-soft)', fontSize: '0.9rem', marginBottom: '0.8rem', fontWeight: 700 }}>Avant l'entretien :</p>
-                  <InfoRow emoji="・" text="Aller dans votre salon privé" />
-                  <InfoRow emoji="・" text="Copier le modèle des questions ci-dessous" />
-                  <InfoRow emoji="・" text="Remplir : Candidat <@id> / id — Réalisé par : toi" />
-                </StepCard>
+              <StepCard step="3" icon={<Mic size={18} />} title="CONDUITE DE L'ENTRETIEN" color="#7000ff">
+                <InfoRow emoji="🎯" text="Évaluer la psychologie et la réactivité du candidat." />
+                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Checklist Senior :</p>
+                <InfoRow emoji="✅" text="Isolation en salon privé." />
+                <InfoRow emoji="✅" text="Vérification de l'âge et de la maturité." />
+                <InfoRow emoji="✅" text="Analyse des mises en situation." />
+              </StepCard>
+            </section>
 
-                {/* ÉTAPE 4 */}
-                <StepCard step="4" icon={<CheckCircle2 size={16} />} title="PENDANT L'ENTRETIEN" color="var(--tech-cyan)">
-                  <InfoRow emoji="👉" text="Saluer la personne (bonjour / bonsoir selon l'heure) et rester poli" />
-                  <InfoRow emoji="👉" text="Mettre le candidat en confiance en lui parlant calmement" />
-                  <InfoRow emoji="👉" text="Le rassurer : l'entretien n'est pas compliqué, pas de pression" />
-                  <InfoRow emoji="👉" text="Lui dire qu'il a environ 90% de chances d'être accepté s'il connaît un minimum Discord et Shibuya" />
-                  <InfoRow emoji="👉" text="Poser les questions une par une, laisser le candidat répondre tranquillement" />
-                  <InfoRow emoji="👉" text="Noter ses réponses directement" />
-                  <div style={{ marginTop: '1rem', padding: '14px 18px', background: 'rgba(0,210,255,0.06)', border: '1px solid rgba(0,210,255,0.2)', borderRadius: '12px' }}>
-                    <p style={{ color: 'var(--tech-cyan)', fontWeight: 800, fontSize: '0.85rem', marginBottom: '0.5rem' }}>❓ QUESTIONS DISCORD OBLIGATOIRES :</p>
-                    <InfoRow emoji="Q1" text={`Comment copier un ID Discord ? → Clic droit "Copier l'ID" / Appui long + 3 points`} />
-                    <InfoRow emoji="Q2" text={`Que fais-tu si quelqu'un troll en vocal ? → Déconnecter / Mute → si ça continue : -tempmute`} />
-                    <InfoRow emoji="Q3" text="Dois-je attendre un DM de mon chef pour regarder mes salons ? → NON, vérifier régulièrement" />
-                  </div>
-                </StepCard>
+            {/* OUTILS ET TEMPLATES */}
+            <section>
+              <h2 className="mb-8 glow-tech" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                <Zap size={24} /> OUTILS DE GESTION
+              </h2>
 
-                {/* TEMPLATE QUESTIONS */}
-                <CopyBlock
-                  title="QUESTIONS RÉSEAU — TEMPLATE À COPIER"
-                  objective="À remplir pendant l'entretien vocal"
-                  text={questionsReseau}
-                />
+              <CopyBlock
+                title="LISTE DES QUESTIONS"
+                objective="Guide d'entretien pour une évaluation standardisée."
+                text={templates.questions}
+                accent="cyan"
+              />
 
-                {/* ÉTAPE 5 : APRÈS */}
-                <StepCard step="5" icon={<AlertCircle size={16} />} title="APRÈS L'ENTRETIEN" color="#ff2d55">
-                  <p style={{ color: 'var(--text-soft)', fontSize: '0.9rem', marginBottom: '0.8rem', fontWeight: 700 }}>👀 Juger si le candidat est :</p>
-                  <InfoRow emoji="・" text="Sérieux / Motivé / Respectueux / Clair dans ses réponses / Comprend le rôle" />
-                  <p style={{ color: 'var(--text-soft)', fontSize: '0.9rem', margin: '0.8rem 0', fontWeight: 700 }}>🏁 Décider :</p>
-                  <InfoRow emoji="✅" text="Assez bon → Accepté" />
-                  <InfoRow emoji="❌" text="Pas assez → Refusé" />
-                  <Warn>Décider seul sauf si un autre recruteur ou supérieur est présent — dans ce cas décider à deux</Warn>
-                  <div style={{ marginTop: '1rem', padding: '14px 18px', background: 'rgba(0,210,255,0.06)', border: '1px solid rgba(0,210,255,0.2)', borderRadius: '12px', fontSize: '0.9rem', color: 'var(--text-soft)' }}>
-                    👉 Après validation, le candidat devra rejoindre le serveur <strong style={{ color: '#fff' }}>Ads Shibuya</strong> pour finaliser son intégration et faire sa demande de rôles.
-                  </div>
-                </StepCard>
+              <CopyBlock
+                title="MODÈLE DE COMPTE-RENDU"
+                objective="À poster dans les logs après chaque entretien."
+                text={templates.recap}
+                accent="red"
+              />
 
-                {/* INFO SERVEUR */}
-                <div style={{ marginTop: '2rem' }}>
-                  <h2 className="mb-6 glow-tech" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                    <Info size={22} /> INFOS SERVEUR À TRANSMETTRE
-                  </h2>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <CopyBlock title="📁 INFO COMMUNE" text={infoCommune} />
-                    <CopyBlock title="📁 INFO RÉSEAUX" text={infoReseau} />
-                  </div>
+              {selectedBranch === 'reseau' && (
+                <div className="card-tech" style={{ border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.2)' }}>
+                  <h3 style={{ color: 'var(--tech-cyan)', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Info size={18} /> ARCHITECTURE SALONS
+                  </h3>
+                  <pre style={{ 
+                    fontFamily: 'monospace', 
+                    fontSize: '0.85rem', 
+                    lineHeight: 1.8, 
+                    color: 'rgba(255,255,255,0.6)',
+                    margin: 0,
+                    whiteSpace: 'pre-wrap'
+                  }}>
+                    {TEMPLATES.salons}
+                  </pre>
                 </div>
-              </section>
-            </div>
-          ) : (
-            <div className="formation-grid">
-              {/* SCRIPT GRAB - Redundant videos removed as requested */}
-              <section>
-                <h2 className="mb-6 glow-tech" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                  <MessageSquare size={24} /> SCRIPTS D'ENTRETIEN GRAB
-                </h2>
-                <CopyBlock
-                  title="QUESTIONS GRAB — TEMPLATE À COPIER"
-                  objective="À remplir pendant l'entretien vocal"
-                  text={questionsGrab}
-                  accent="red"
-                />
-              </section>
-            </div>
-          )}
+              )}
+            </section>
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>
