@@ -122,7 +122,7 @@ export default function Panel() {
             <div className="profile-pill">
               <div className="profile-info">
                 <span className="profile-name">{currentUser.name}</span>
-                {currentUser.role === ROLES.UNIVERS ? (
+                {currentUser.discordId === '0001' ? (
                   <select 
                     value={currentUser.role} 
                     onChange={(e) => setMyRole(e.target.value)}

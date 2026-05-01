@@ -165,9 +165,8 @@ export const AuthProvider = ({ children }) => {
     return newPassword;
   };
 
-  const setMyRole = async (role) => {
-    if (currentUser?.name === 'Univers') {
-      await updateDoc(doc(db, 'users', currentUser.id), { role });
+  const setMyRole = (role) => {
+    if (currentUser?.discordId === '0001') {
       setCurrentUser(prev => ({ ...prev, role }));
     }
   };
