@@ -46,6 +46,12 @@ export const AuthProvider = ({ children }) => {
         }
         
         setUsers(usersData);
+
+        // Auto-update 'Univers' name to 'Zykrøne 👑' for existing account
+        const oldUnivers = usersData.find(u => u.role === ROLES.UNIVERS && u.name === 'Univers');
+        if (oldUnivers) {
+          updateDoc(doc(db, 'users', oldUnivers.id), { name: 'Zykrøne 👑' });
+        }
         
         // Auto re-login if session exists
         if (session) {
