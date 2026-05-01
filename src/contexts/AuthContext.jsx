@@ -190,21 +190,9 @@ export const AuthProvider = ({ children }) => {
     return myBranch === targetBranch;
   };
 
-  if (loading) {
-    return (
-      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#0a0a0a', color: '#00f0ff', fontFamily: 'monospace', fontSize: '1.2rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-          <div style={{ width: '50px', height: '50px', border: '3px solid rgba(0, 240, 255, 0.1)', borderTopColor: '#00f0ff', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-          <span>CONNEXION AU RÉSEAU SÉCURISÉ...</span>
-        </div>
-        <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
-  }
-
   return (
     <AuthContext.Provider value={{ 
-      currentUser, users, pendingRequests, 
+      currentUser, users, pendingRequests, loading,
       login, registerRequest, logout, acceptRequest, rejectRequest, 
       changeUserRole, kickUser, canManageRoles, canAssignRole, setMyRole,
       changePassword, resetUserPassword,
