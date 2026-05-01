@@ -148,6 +148,7 @@ export default function Membres() {
   } = auth;
 
   const [resetResult, setResetResult] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   if (!canManageRoles || !canManageRoles()) {
     return (
@@ -198,23 +199,25 @@ export default function Membres() {
               </p>
               
               <div style={{ 
-                background: 'rgba(0, 210, 255, 0.1)', 
+                background: copied ? 'var(--success-green)' : 'rgba(0, 210, 255, 0.1)', 
                 padding: '20px', 
                 borderRadius: '15px', 
-                border: '1px dashed var(--tech-cyan)',
-                fontSize: '2rem',
+                border: copied ? '1px solid var(--success-green)' : '1px dashed var(--tech-cyan)',
+                fontSize: copied ? '1.5rem' : '2rem',
                 fontWeight: 900,
-                letterSpacing: '5px',
-                color: 'var(--tech-cyan)',
+                letterSpacing: copied ? '2px' : '5px',
+                color: copied ? '#000' : 'var(--tech-cyan)',
                 marginBottom: '30px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
               }}
               onClick={() => {
                 navigator.clipboard.writeText(resetResult.password);
-                alert('Code copié !');
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
               }}
               >
-                {resetResult.password}
+                {copied ? 'COPIÉ AVEC SUCCÈS !' : resetResult.password}
               </div>
 
               <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '30px' }}>
@@ -359,8 +362,8 @@ export default function Membres() {
                           fontSize: '0.8rem',
                           fontWeight: 800
                         }}
-                        onClick={() => {
-                          const newPass = resetUserPassword(u.id);
+                        onClick={async () => {
+                          const newPass = await resetUserPassword(u.id);
                           setResetResult({ name: u.name || u.id, password: newPass });
                         }}
                       >

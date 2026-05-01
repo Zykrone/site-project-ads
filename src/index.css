@@ -253,3 +253,34 @@ button {
 .mb-12 { margin-bottom: 3rem; }
 .text-center { text-align: center; }
 .mx-auto { margin-left: auto; margin-right: auto; }
+
+/* ─── ZYKRONE SIGNATURE ─── */
+.zykrone-signature {
+  position: fixed;
+  bottom: 15px;
+  right: 20px;
+  font-family: var(--font-main);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  z-index: 9999;
+  transition: all 0.4s ease;
+  cursor: default;
+}
+
+.zykrone-signature:hover {
+  color: var(--tech-cyan);
+  text-shadow: 0 0 15px var(--tech-glow);
+  transform: translateY(-2px);
+  letter-spacing: 0.25em;
+}
+
+@media (max-width: 768px) {
+  .zykrone-signature {
+    bottom: 10px;
+    right: 15px;
+    font-size: 0.5rem;
+  }
+}

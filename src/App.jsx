@@ -13,6 +13,9 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/panel/*" element={<Panel />} />
         </Routes>
+        <div className="zykrone-signature">
+          CODE BY ZYKRONE
+        </div>
       </Router>
     </AuthProvider>
   );
