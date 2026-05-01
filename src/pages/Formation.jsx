@@ -92,16 +92,7 @@ const ReseauSection = () => (
       <h2 className="glow-tech" style={{ fontSize: '3.5rem' }}>STRATÉGIE VIRALE RÉSEAUX</h2>
     </div>
 
-    <div className="card-tech mb-12" style={{ overflow: 'hidden', padding: '0' }}>
-      <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-        <iframe
-          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
-          src="https://www.youtube.com/embed/y-PEHsD1Bwk"
-          title="Formation Réseau"
-          allowFullScreen
-        />
-      </div>
-    </div>
+
 
     <div className="card-tech mb-12" style={{ padding: '70px' }}>
       <div className="tech-grid mb-12" style={{ gap: '80px' }}>
