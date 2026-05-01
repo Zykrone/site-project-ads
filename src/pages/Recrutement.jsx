@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, Copy, MessageSquare, Users, Video, CheckCircle2, AlertCircle, Clock, Mic, BookOpen, Info } from 'lucide-react';
+import { ShieldAlert, MessageSquare, Users, CheckCircle2, AlertCircle, Clock, Mic, BookOpen, Info } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const CopyBlock = ({ title, icon, objective, text, accent = 'cyan' }) => {
